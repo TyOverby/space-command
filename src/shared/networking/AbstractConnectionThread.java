@@ -9,11 +9,25 @@ import java.io.*;
  * @author Dustin Lundquist <dustin@null-ptr.net>
  */
 public abstract class AbstractConnectionThread extends Thread {
+	public static final int PORT = 2390;
+	
     private Socket socket;
     private boolean running;
+    
+    ObjectOutputStream out = null;
+    ObjectInputStream in = null;
 
     protected AbstractConnectionThread(Socket socket) {
         this.socket = socket;
+        
+        try {
+			out = new ObjectOutputStream(socket.getOutputStream());
+			 in = new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+       
+        
         running = true;
     }
 
@@ -23,12 +37,9 @@ public abstract class AbstractConnectionThread extends Thread {
     public void run() {
         setName(this.getClass().getSimpleName() + " [" + socket.getRemoteSocketAddress() + "]");
         Message msg;
-        ObjectOutputStream out = null;
-        ObjectInputStream in = null;
 
         try {
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
+            
 
             // Include a hook to send an initial hello message
             msg = helloMessage();
@@ -41,12 +52,8 @@ public abstract class AbstractConnectionThread extends Thread {
             while (running) {
                 msg = (Message)in.readObject();
 
-                msg = handleMessage(msg);
-                try {
-                    out.writeObject(msg);
-                } catch (Exception e) {
-                    System.err.println(msg + "was not serializable");
-                }
+                handleMessage(msg);
+                
                 out.flush();
                 out.reset(); // Flush the object cache so the next update will actually update stuff
             }
@@ -77,8 +84,22 @@ public abstract class AbstractConnectionThread extends Thread {
         }
     }
     
+    public void say(Message message){
+    	try {
+            out.writeObject(message);
+        } catch (Exception e) {
+        	e.printStackTrace();
+            System.err.println(message.toString() + "was not serializable");
+        }
+    }
+    
     public void close() {
         running = false;
+        try {
+			this.socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -97,5 +118,5 @@ public abstract class AbstractConnectionThread extends Thread {
         return null;
     }
 
-    protected abstract Message handleMessage(Message msg) throws IOException, InterruptedException;
+    protected abstract void handleMessage(Message msg) throws IOException, InterruptedException;
 }

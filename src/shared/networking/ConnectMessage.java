@@ -12,4 +12,15 @@ public class ConnectMessage extends Message{
 		this.password = password;
 		this.shipName = shipName;
 	}
+	
+	public String toString(){
+		String toReturn = "";
+		
+		toReturn += "CONNECT MESSAGE: ";
+		toReturn += "[Name: "+playerName+"],";
+		toReturn += "[Pass: "+password+"],";
+		toReturn += "[ShipName: "+shipName+"],";
+		
+		return toReturn;
+	}
 }

@@ -10,12 +10,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import client.main.drawing.Camera;
-import client.networking.ConnectionHandler;
 
 import shared.ships.Ship;
  
 public class EntryPoint extends BasicGame{
-	ConnectionHandler connectionHandler;
 	public boolean connected = false;
 	
 	public static List<Drawable> environment = new ArrayList<Drawable>(50);
@@ -32,8 +30,6 @@ public class EntryPoint extends BasicGame{
     @Override
     public void init(GameContainer gc) throws SlickException 
     {
-    	connectionHandler = new ConnectionHandler("localhost");
-    	connectionHandler.start();
     	
     	// If we haven't connected yet, just chill.
     	while (!connected){
@@ -54,12 +50,7 @@ public class EntryPoint extends BasicGame{
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException 
     {
-    	for(Drawable env:environment){
-    		env.draw(playerCamera);
-    	}
-    	for(Ship ship:ships){
-    		ship.draw(playerCamera);
-    	}
+    	
     }
  
     public static void main(String[] args) 
