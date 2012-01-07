@@ -2,7 +2,7 @@ package shared.main;
 
 import java.io.Serializable;
 
-import org.newdawn.slick.geom.Vector2f;
+import shared.math.Vector2f;
 
 /**
  * An Actor is something that moves around the screen and 
@@ -10,11 +10,49 @@ import org.newdawn.slick.geom.Vector2f;
  * @author Ty
  *
  */
-public interface Actor extends Serializable, GameObject{
+public abstract class Actor extends GameObject implements Serializable {
+	private static final long serialVersionUID = -7526252782026942901L;
+
+	// Position stuff
+	private Vector2f velocity;
 	
-	public abstract float getVelocity();
-	public abstract Vector2f getPosition();
-	public abstract String getImagePath();
+	// Collision stuff
+	private float radius;
 	
-	public abstract int getRadius();
+	// The many constructors!
+	public Actor(Vector2f position,Vector2f velocity,float radius, float rotation){
+		setPosition(position);
+		setRadius(radius);
+		setRotation(rotation);
+		
+		setVelocity(velocity);
+	}
+	public Actor(Vector2f position,Vector2f velocity,float radius,float rotation,float scale){
+		setPosition(position);
+		setRadius(radius);
+		setRotation(rotation);
+		
+		setVelocity(velocity);
+		setScale(scale);
+	}
+	
+	// Updating
+	public void update(long delta){
+		this.getPosition().plusEquals(velocity);
+	}
+	
+	// Getters and setters
+	public Vector2f getVelocity() {
+		return velocity;
+	}
+	public void setVelocity(Vector2f velocity) {
+		this.velocity = velocity;
+	}
+
+	public float getRadius() {
+		return radius;
+	}
+	public void setRadius(float radius) {
+		this.radius = radius;
+	}
 }

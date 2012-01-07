@@ -1,76 +1,111 @@
 package server.main;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
-import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
+import client.main.drawing.Camera;
+
+import shared.math.Vector2f;
 
 import server.networking.ConnectionPool;
 import server.networking.Player;
-import shared.main.GameObject;
+import shared.main.Actor;
+import shared.main.Game;
 import shared.main.actors.Asteroid;
+import shared.networking.UpdateAcMessage;
+import shared.networking.UpdatePsMessage;
 import shared.ships.JetPlane;
 import shared.ships.PlayerShip;
 
-public class ServerGame extends Thread {
-	
+public class ServerGame extends Game implements Runnable {
+
 	private static ConnectionPool cp;
-	
-	private static final Map<Integer,GameObject> gameObjects = new HashMap<Integer,GameObject>();
-	private static final Map<Integer,PlayerShip> playerShips = new HashMap<Integer,PlayerShip>();
+
+	private static final long pushGoTime = 1000;
+	private static final long pushPsTime = 150;
+
+	private static long lastPushGo;
+	private static long lastPushPs;
+	private static long lastUpdateTime;
+
+	private static long time;
 
 	@Override
 	public void run(){
-		try {
-			init();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		time = System.currentTimeMillis();
+		lastPushGo = time;
+		lastPushPs = time;
+
+		init();
+
 		while(true){
-			update();
-			try {Thread.sleep(5);
-			} catch (InterruptedException e) {}
-			
-			for(Object o:gameObjects.values()){
-				System.out.println(o.getClass().getSimpleName());
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-			for(Object o:playerShips.values()){
-				System.out.println(o.getClass().getSimpleName());
+
+			time = System.currentTimeMillis();
+
+			update(time-lastUpdateTime);
+
+			if(time-lastPushGo>pushGoTime){
+				cp.sayToAll(new UpdateAcMessage(actors));
+				lastPushGo = time;
+			}
+			if(time-lastPushPs>pushPsTime){
+				cp.sayToAll(new UpdatePsMessage(playerShips));
+				lastPushPs = time;
 			}
 		}
 	}
-	
-	private static void init() throws IOException{
-		cp = new ConnectionPool();
-		
+
+	public void init(){
+		cp = new ConnectionPool(this);
+
 		System.out.println("Server Starting");
 		cp.start();
-		
-		gameObjects.put(gameObjects.size(), new Asteroid());
+		System.out.println(Double.MAX_VALUE);
+		load();
 	}
-	
-	private static void update(){
-		for(GameObject go:gameObjects.values()){
-			go.update();
+
+	public void update(long l){
+		for(Actor actor:actors.values()){
+			actor.update(l);
+		}
+		for(PlayerShip ps:playerShips.values()){
+			ps.update(l);
 		}
 	}
 	
-	
-	public static Map<Integer,PlayerShip> getPlayerShips(){
+	@Override
+	public void draw(GameContainer gc, Graphics g, Camera c) {
+		// Don't draw anything :D
+	}
+
+	private void load(){
+		Asteroid asteroid = new Asteroid(new Vector2f(0,0),new Vector2f(0.01f,0.01f),50,50);
+		actors.put(actors.size(),asteroid);
+	}
+
+
+	public Map<Integer,PlayerShip> getPlayerShips(){
 		return playerShips;
 	}
-	public static void addPlayerShip(String shipName, String password,Player player){
-		
-		PlayerShip newShip = new PlayerShip(shipName,password,new JetPlane(new Vector2f(0,0),0));
+	public void addPlayerShip(String shipName, String password,Player player){
+
+		PlayerShip newShip = new PlayerShip(shipName,password,new JetPlane(new Vector2f(50,50), new Vector2f(0,0),50,50));
 		newShip.addPlayer(player.playerID);
-		
+
 		playerShips.put(playerShips.size(), newShip);
 	}
-	
+
 	public static void main(String... args){
 		ServerGame sg = new ServerGame();
-		sg.start();
+		new Thread(sg).start();
 	}
+
+
 }

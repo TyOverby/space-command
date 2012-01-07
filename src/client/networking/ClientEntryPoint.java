@@ -11,7 +11,7 @@ public class ClientEntryPoint {
 
 		System.out.println("CLIENT");
 		
-		ConnectMessage requestShip = new ConnectMessage("shipname","shippass","seht1010");
+		ConnectMessage requestShip = new ConnectMessage("seht1010","shippass","shipName");
 		clientPort.say(requestShip);
 		clientPort.start();
 	}

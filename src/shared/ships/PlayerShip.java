@@ -1,9 +1,14 @@
 package shared.ships;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerShip{
+import shared.math.Vector2f;
+
+public class PlayerShip implements Serializable{
+	private static final long serialVersionUID = -5079049404420648508L;
+	
 	private final String name;
 	private final String password;
 	
@@ -17,12 +22,16 @@ public class PlayerShip{
 		this.ship = ship;
 	}
 	
+	public void update(long l){
+		
+	}
+	
 	public String getName(){
 		return this.name;
 	}
 	
-	public String getPass(){
-		return this.password;
+	public boolean testPassword(String pass){
+		return this.password.equals(pass);
 	}
 	
 	public Ship getShip(){
@@ -35,5 +44,9 @@ public class PlayerShip{
 	
 	public void addPlayer(int playerId){
 		this.playerIdList.add(playerId);
+	}
+
+	public Vector2f getPosition() {
+		return ship.getPosition();
 	}
 }

@@ -39,27 +39,16 @@ public abstract class AbstractConnectionThread extends Thread {
         Message msg;
 
         try {
-            
-
-            // Include a hook to send an initial hello message
-            msg = helloMessage();
-            if (msg != null) {
-                out.writeObject(msg);
-                out.flush();
-            }
-
+        	
             // Main loop to receive updates and respond          
             while (running) {
                 msg = (Message)in.readObject();
-
                 handleMessage(msg);
-                
-                out.flush();
-                out.reset(); // Flush the object cache so the next update will actually update stuff
             }
         } catch (SocketException e) {
             if (e.getMessage().equals("Connection reset")) {
                 System.err.println("Connection reset");
+                e.printStackTrace();
                 running = false;
             } else
                 e.printStackTrace();
@@ -84,13 +73,10 @@ public abstract class AbstractConnectionThread extends Thread {
         }
     }
     
-    public void say(Message message){
-    	try {
+    public void say(Message message) throws IOException{
             out.writeObject(message);
-        } catch (Exception e) {
-        	e.printStackTrace();
-            System.err.println(message.toString() + "was not serializable");
-        }
+            out.flush();
+            out.reset(); // Flush the object cache so the next update will actually update stuff
     }
     
     public void close() {

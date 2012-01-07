@@ -30,6 +30,15 @@ public class Player extends AbstractConnectionThread{
 		}
 	}
 	
+	public void say(Message message){
+		try{
+			super.say(message);
+		}catch(IOException se){
+			System.out.println("player disconnected");
+			connectionPool.removePlayer(this);
+		}
+	}
+	
 	public String getPlayerName(){
 		return this.playerName;
 	}

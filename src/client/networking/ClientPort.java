@@ -4,22 +4,53 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import client.main.ClientGame;
+import client.main.Main;
+
 import shared.networking.AbstractConnectionThread;
-import shared.networking.HelloMessage;
+import shared.networking.ConnectionAcceptedMessage;
+import shared.networking.ConnectionDeniedMessage;
 import shared.networking.Message;
+import shared.networking.UpdateAcMessage;
+import shared.networking.UpdatePsMessage;
 
 
 public class ClientPort extends AbstractConnectionThread{
 
-	protected ClientPort() throws UnknownHostException, IOException {
+	public ClientPort() throws UnknownHostException, IOException {
 		super(new Socket("localhost",AbstractConnectionThread.PORT));
 	}
 
 	@Override
 	protected void handleMessage(Message msg) throws IOException,InterruptedException {
-		if(msg instanceof HelloMessage){
-			System.out.println("Accepted");
+		
+		if(msg instanceof UpdateAcMessage){
+			Main.connected = true;
+			ClientGame.updateGameObjects(((UpdateAcMessage) msg).actors);
+			//System.out.println("updating game objects");
 		}
-		System.out.println("MESSAGE RECIEVES");
+		else if(msg instanceof UpdatePsMessage){
+			Main.connected = true;
+			ClientGame.updatePlayerShips(((UpdatePsMessage) msg).playerShips);
+			//System.out.println("updating ships");
+		}else if(msg instanceof ConnectionAcceptedMessage){
+			System.err.println("Accepted");
+			Main.connected = true;
+		}else if(msg instanceof ConnectionDeniedMessage){
+			System.out.println("Connection denied");
+			Main.connected = false;  // This shouldn't be necessary, but just to make sure :)
+		}
+		else{
+			System.out.println("unknown message of type: "+msg.getClass().getSimpleName());
+		}
+	}
+	
+	public void say(Message message){
+		try{
+			super.say(message);
+		}
+		catch(IOException ioe){
+			ioe.printStackTrace();
+		}
 	}
 }

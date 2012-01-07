@@ -1,27 +1,23 @@
 package shared.ships;
 
-import org.newdawn.slick.geom.Vector2f;
+import shared.math.Vector2f;
 
 
 
 public class JetPlane extends Ship {
 	private static final long serialVersionUID = -149695681227433121L;
 	
-	static float scale = 1f;
-	
-	public JetPlane(Vector2f position,float rotation) {
-		super(scale, position, rotation);
+	public JetPlane(Vector2f position,Vector2f velocity,float radius,float rotation){
+		super(position, velocity, radius, rotation);
 	}
 
 	@Override
-	public String getImagePath() {
+	public String getTexturePath() {
 		return "assets/plane.png";
 	}
 
 	@Override
-	public int getRadius() {
-		return 50;
+	public String getSimplifiedImagePath() {
+		return "assets/plane.png";
 	}
-
-
 }
