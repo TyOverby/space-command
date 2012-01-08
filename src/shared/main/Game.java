@@ -8,13 +8,14 @@ import org.newdawn.slick.Graphics;
 
 import client.main.drawing.Camera;
 
+import shared.math.Dimension;
 import shared.ships.PlayerShip;
 
 public abstract class Game {
 	protected  Map<Integer,Actor> actors = new HashMap<Integer,Actor>();
 	protected Map<Integer,PlayerShip> playerShips = new HashMap<Integer,PlayerShip>();
 	
-	public abstract void init();
+	public abstract void init(Dimension screenDims);
 	
 	public abstract void update(long delta);
 	

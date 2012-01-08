@@ -41,15 +41,19 @@ public class ServerGame extends Game implements Runnable {
 		init();
 
 		while(true){
+			time = System.currentTimeMillis();
+			if(lastUpdateTime==0){
+				lastUpdateTime=time;
+			}
+
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
-			time = System.currentTimeMillis();
-
+			
 			update(time-lastUpdateTime);
+			lastUpdateTime = time;
 
 			if(time-lastPushGo>pushGoTime){
 				cp.sayToAll(new UpdateAcMessage(actors));
@@ -71,8 +75,9 @@ public class ServerGame extends Game implements Runnable {
 		load();
 	}
 
-	public void update(long l){
+	public void update(long l){				
 		for(Actor actor:actors.values()){
+			System.out.println(actor.getPosition());
 			actor.update(l);
 		}
 		for(PlayerShip ps:playerShips.values()){
@@ -86,7 +91,7 @@ public class ServerGame extends Game implements Runnable {
 	}
 
 	private void load(){
-		Asteroid asteroid = new Asteroid(new Vector2f(0,0),new Vector2f(0.01f,0.01f),50,50);
+		Asteroid asteroid = new Asteroid(new Vector2f(0,0),new Vector2f(10,10),50,50);
 		actors.put(actors.size(),asteroid);
 	}
 

@@ -38,7 +38,8 @@ public abstract class Actor extends GameObject implements Serializable {
 	
 	// Updating
 	public void update(long delta){
-		this.getPosition().plusEquals(velocity);
+		float fracOfSecond = ((float) delta)/1000;
+		this.getPosition().plusEquals(velocity.times(fracOfSecond));
 	}
 	
 	// Getters and setters

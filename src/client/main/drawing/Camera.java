@@ -1,19 +1,21 @@
 package client.main.drawing;
 
 import org.newdawn.slick.GameContainer;
+
+import shared.math.Dimension;
 import shared.math.Vector2f;
 
 public class Camera {
-	private GameContainer gc;
+	private Dimension screenDims;
 	private Vector2f position;
-	private float zoom = 1;
+	private float zoom = 5;
 	
-	public Camera(GameContainer gc){
-		this.gc = gc;
+	public Camera(Dimension screenDimension){
+		this.screenDims = screenDimension;
 	}
-	public Camera(GameContainer gc,Vector2f position){
+	public Camera(Dimension screenDimension,Vector2f position){
 		this.position = position;
-		this.gc = gc;
+		this.screenDims = screenDimension;
 	}
 	
 	public void setPosition(Vector2f position){
@@ -40,8 +42,22 @@ public class Camera {
 		Vector2f toReturn = globalPosition.clone();
 		
 		toReturn.setY(toReturn.getY()*-1);  // Invert the Y axis to actually make sense.
-		toReturn.setX(toReturn.getX()); //TODO: make this work
 		toReturn.setMagnitude((float) (toReturn.getMagnitude()/getZoom()));
+		
+		toReturn.setX(toReturn.getX()+gc.getWidth()/2);
+		toReturn.setY(toReturn.getY()+gc.getHeight()/2);
+		
+		return toReturn;
+	}
+	
+	public Vector2f ScreenToGlobal(Vector2f screenPosition){
+		Vector2f toReturn = screenPosition.clone();
+		
+		toReturn.setY(toReturn.getY()-gc.getHeight()/2);
+		toReturn.setX(toReturn.getX()-gc.getWidth()/2);
+		
+		toReturn.setMagnitude((float)(toReturn.getMagnitude()*getZoom()));
+		toReturn.setY(toReturn.getY()*-1);
 		
 		return toReturn;
 	}

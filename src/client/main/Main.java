@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 
 import client.main.drawing.Camera;
 
+import shared.math.Vector2f;
 import shared.ships.Ship;
 
 public class Main extends BasicGame{

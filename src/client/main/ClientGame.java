@@ -12,6 +12,8 @@ import client.networking.ClientPort;
 
 import shared.main.Actor;
 import shared.main.Game;
+import shared.math.Dimension;
+import shared.math.Vector2f;
 import shared.networking.ConnectMessage;
 import shared.ships.PlayerShip;
 
@@ -20,8 +22,11 @@ public class ClientGame extends Game{
 	private static Map<Integer,PlayerShip> tmpPS = new HashMap<Integer,PlayerShip>();
 	
 
+	public static Camera playerCamera;
 	
-	public void init(){
+	public void init(Dimension screenDims){
+		playerCamera = new Camera(gc, new Vector2f(0,0));
+		
 		ClientPort clientPort = null;
 		try{
 		clientPort = new ClientPort();
@@ -38,6 +43,8 @@ public class ClientGame extends Game{
 	}
 	
 	public void update(long delta){
+		System.out.println(delta);
+		
 		// Update the old items
 		if(tmpAC!=null){
 			actors=new HashMap<Integer, Actor>(tmpAC);
@@ -58,13 +65,16 @@ public class ClientGame extends Game{
 	
 	public void draw(GameContainer gc, Graphics g, Camera c){
 		for(Actor ac:actors.values()){
+			Vector2f drawPos = c.globalToScreen(ac.getPosition());
+			
 			g.setColor(Color.cyan);
-			g.drawRect(ac.getPosition().getX(), ac.getPosition().getY(), 20, 20);
-			System.out.println(ac.getPosition());
+			g.drawRect(drawPos.getX(), drawPos.getY(),(float) (50/c.getZoom()),(float) (50/c.getZoom()));
 		}
 		for(PlayerShip ps:playerShips.values()){
+			Vector2f drawPos = c.globalToScreen(ps.getPosition());
+			
 			g.setColor(Color.red);
-			g.drawRect(ps.getPosition().getX(), ps.getPosition().getY(), 20, 20);
+			g.drawRect(drawPos.getX(), drawPos.getY(),(float) (50/c.getZoom()),(float) (50/c.getZoom()));
 		}
 	}
 	
