@@ -9,10 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import client.main.drawing.Camera;
-
 import shared.math.Vector2f;
-import shared.ships.Ship;
 
 public class Main extends BasicGame{
 	ClientGame clientGame = new ClientGame();
@@ -20,10 +17,6 @@ public class Main extends BasicGame{
 	public static boolean connected = false;
 
 	public static List<Drawable> environment = new ArrayList<Drawable>(50);
-	public static List<Ship> ships = new ArrayList<Ship>(50);
-
-	public static Ship playerShip;
-	public static Camera playerCamera;
 
 	public Main()
 	{
@@ -34,7 +27,7 @@ public class Main extends BasicGame{
 	public void init(GameContainer gc) throws SlickException 
 	{
 		System.out.println("start cg init");
-		clientGame.init();
+		clientGame.init(new Vector2f(gc.getWidth(),gc.getHeight()));
 		System.out.println("end cg init");
 
 		// If we haven't connected yet, just chill.
@@ -56,7 +49,7 @@ public class Main extends BasicGame{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		clientGame.draw(gc,g,playerCamera);
+		clientGame.draw(g);
 	}
 
 	public static void main(String[] args) throws SlickException {

@@ -12,7 +12,6 @@ import shared.networking.ConnectionAcceptedMessage;
 import shared.networking.ConnectionDeniedMessage;
 import shared.networking.Message;
 import shared.networking.UpdateAcMessage;
-import shared.networking.UpdatePsMessage;
 
 
 public class ClientPort extends AbstractConnectionThread{
@@ -28,11 +27,6 @@ public class ClientPort extends AbstractConnectionThread{
 			Main.connected = true;
 			ClientGame.updateGameObjects(((UpdateAcMessage) msg).actors);
 			//System.out.println("updating game objects");
-		}
-		else if(msg instanceof UpdatePsMessage){
-			Main.connected = true;
-			ClientGame.updatePlayerShips(((UpdatePsMessage) msg).playerShips);
-			//System.out.println("updating ships");
 		}else if(msg instanceof ConnectionAcceptedMessage){
 			System.err.println("Accepted");
 			Main.connected = true;

@@ -1,23 +1,17 @@
 package shared.main;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import client.main.drawing.Camera;
-
-import shared.math.Dimension;
-import shared.ships.PlayerShip;
+import shared.main.entity.Entity;
+import shared.main.entity.Hollywood;
+import shared.math.Vector2f;
 
 public abstract class Game {
-	protected  Map<Integer,Actor> actors = new HashMap<Integer,Actor>();
-	protected Map<Integer,PlayerShip> playerShips = new HashMap<Integer,PlayerShip>();
+	protected  Hollywood<Entity> actors = new Hollywood<Entity>();
 	
-	public abstract void init(Dimension screenDims);
+	public abstract void init(Vector2f screenDims);
 	
 	public abstract void update(long delta);
 	
-	public abstract void draw(GameContainer gc, Graphics g, Camera camera);
+	public abstract void draw(Graphics g);
 }

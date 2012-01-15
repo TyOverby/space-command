@@ -2,12 +2,12 @@ package server.networking;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import server.main.ServerGame;
-import shared.ships.PlayerShip;
+import shared.main.entity.Entity;
 import shared.networking.AbstractConnectionThread;
 import shared.networking.ConnectionAcceptedMessage;
 import shared.networking.Message;
@@ -16,11 +16,12 @@ import shared.networking.Message;
 public class ConnectionPool extends Thread{
 
 	private boolean isRunning = false;
-	private final ServerGame serverGame;
 
+	private List<PlayerShip> playerShips = new ArrayList<PlayerShip>(5);
 	private List<Player> players = new CopyOnWriteArrayList<Player>();
 	private ServerSocket serverSocket;
 
+	private final ServerGame serverGame;
 
 	private int playerCount = 0;
 
@@ -80,13 +81,17 @@ public class ConnectionPool extends Thread{
 			player.say(message);
 		}
 	}
-
-	public Collection<PlayerShip> getPlayerShips(){
-		return serverGame.getPlayerShips().values();
+	
+	public void addPlayerToShip(String shipName, String password,Player player){
+		PlayerShip newShip = new PlayerShip(shipName,password,new Entity(shipName));
+		newShip.addPlayer(player.playerID);
+		
+		playerShips.add(newShip);
+		serverGame.addShip(newShip.getShip());
 	}
 
 	public void requestShip(String shipName, String password,Player player) {
-		for(PlayerShip ps:getPlayerShips()){
+		for(PlayerShip ps:playerShips){
 			if(ps.getName().equals(shipName)){
 				if(ps.testPassword(password)){
 					ps.addPlayer(player.playerID);
@@ -100,7 +105,7 @@ public class ConnectionPool extends Thread{
 			}
 		}
 
-		serverGame.addPlayerShip(shipName,password,player);
+		addPlayerToShip(shipName,password,player);
 		player.say(new ConnectionAcceptedMessage());
 		System.out.println("Player created ship: "+shipName);
 	}

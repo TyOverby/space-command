@@ -1,0 +1,29 @@
+package shared.networking.ptsupdate;
+
+import shared.networking.Message;
+
+public class UpdateMessage extends Message{
+	private static final long serialVersionUID = 3608091701857581922L;
+
+	public enum Destination{
+		HELM,
+	}
+	public enum Type{
+		// HELM
+		FORWARD,
+		BACKWARD,
+		ANGLE,
+		
+		// OTHER DESTINATIONS
+	}
+	
+	public final Destination destination;
+	public final Type type;
+	public final double payload;
+	
+	public UpdateMessage(Destination destination,Type type,double payload){
+		this.destination = destination;
+		this.type = type;
+		this.payload = payload;
+	}
+}

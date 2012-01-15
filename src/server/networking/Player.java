@@ -3,6 +3,7 @@ package server.networking;
 import java.io.IOException;
 import java.net.Socket;
 
+import shared.main.entity.Entity;
 import shared.networking.AbstractConnectionThread;
 import shared.networking.ConnectMessage;
 import shared.networking.Message;
@@ -12,6 +13,8 @@ public class Player extends AbstractConnectionThread{
 	
 	public final int playerID;
 	private String playerName;
+	
+	private Entity playerShip;
 	
 	protected Player(Socket socket, ConnectionPool connectionPool) {
 		super(socket);
@@ -28,6 +31,15 @@ public class Player extends AbstractConnectionThread{
 			
 			connectionPool.requestShip(message.shipName,message.password,this);
 		}
+//		if(msg instanceof UpdateMessage){
+//			if(((UpdateMessage) msg).destination==UpdateMessage.Destination.HELM){
+//				playerShip.
+//			}
+//		}
+	}
+	
+	public void setShip(Entity ship){
+		this.playerShip = ship;
 	}
 	
 	public void say(Message message){
