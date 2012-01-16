@@ -7,6 +7,7 @@ public class HelmVS extends ViewScreen{
 
 	public HelmVS(Vector2f dimensions) {
 		super(dimensions);
+		setCamera(new Camera(dimensions));
 	}
 
 	@Override

@@ -6,10 +6,10 @@ import java.util.Map;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class ImageManager<C> {
-	private Map<Long,Image> imageMap = new HashMap<Long,Image>();
+public class ImageManager {
+	private static Map<Long,Image> imageMap = new HashMap<Long,Image>();
 
-	public Image getOrPutImage(long id, String url){
+	public static Image getOrPutImage(long id, String url){
 		Image toReturn = imageMap.get(id);
 		// If it doesn't already exist
 		if(toReturn == null){

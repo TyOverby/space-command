@@ -8,8 +8,13 @@ public class MovingComponent extends Component{
 
 	private Vector2f velociy;
 	
-	public MovingComponent() {
-		super("Moving");
+	public MovingComponent(){
+		this(new Vector2f(0,0));
+	}
+	
+	public MovingComponent(Vector2f velocity) {
+		super("MovingComponent");
+		this.velociy = velocity;
 	}
 	
 	@Override

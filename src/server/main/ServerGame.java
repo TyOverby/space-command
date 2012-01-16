@@ -62,7 +62,7 @@ public class ServerGame extends Game implements Runnable {
 	public void update(long l){	
 		for(Entity actor:actors){
 			actor.update(l);
-			System.out.println(actor.getId());
+//			System.out.println(actor.getId());
 		}
 	}
 	
@@ -76,6 +76,7 @@ public class ServerGame extends Game implements Runnable {
 	}
 	
 	private void load(){
+		actors.add(EntityBuilder.buildAsteroid());
 		actors.add(EntityBuilder.buildAsteroid());
 	}
 

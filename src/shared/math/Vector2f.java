@@ -86,6 +86,9 @@ public class Vector2f implements Serializable, Cloneable{
 	 */
 	public void normalize(){
 		float mag = (float) getMagnitude();
+		if(mag == 0){
+			mag = 1;
+		}
 		
 		setX((getX()/mag));
 		setY((getY()/mag));

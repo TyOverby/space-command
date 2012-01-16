@@ -2,7 +2,6 @@ package client.main;
 
 import org.newdawn.slick.Graphics;
 
-import client.main.drawing.Camera;
 import client.main.drawing.HelmVS;
 import client.main.drawing.ViewScreen;
 import client.networking.ClientPort;
@@ -17,14 +16,11 @@ public class ClientGame extends Game{
 	private static Hollywood<Entity> tmpAC = new Hollywood<Entity>();
 	
 	private ViewScreen viewScreen;
-
-	public static Camera playerCamera;
 	
 	/**
 	 * 
 	 */
 	public void init(Vector2f screenDims){
-		playerCamera = new Camera(screenDims, new Vector2f(0,0));
 		
 		ClientPort clientPort = null;
 		try{
@@ -53,6 +49,7 @@ public class ClientGame extends Game{
 		}
 		
 		for(Entity ac:actors){
+			//System.out.println(ac.name);
 			ac.update(delta);
 		}
 	}

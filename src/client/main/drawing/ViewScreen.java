@@ -10,8 +10,8 @@ public abstract class ViewScreen {
 	protected Camera camera;
 	protected Graphics graphics;
 	
-	public ViewScreen(Vector2f dimensions){
-		this.dimensions = dimensions;
+	public ViewScreen(Vector2f panelDim){
+		this.dimensions = panelDim;
 	}
 	
 	public void setGraphics(Graphics g){
