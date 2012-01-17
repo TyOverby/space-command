@@ -11,7 +11,7 @@ import shared.networking.AbstractConnectionThread;
 import shared.networking.ConnectionAcceptedMessage;
 import shared.networking.ConnectionDeniedMessage;
 import shared.networking.Message;
-import shared.networking.UpdateAcMessage;
+import shared.networking.SyncMessage;
 
 
 public class ClientPort extends AbstractConnectionThread{
@@ -23,9 +23,9 @@ public class ClientPort extends AbstractConnectionThread{
 	@Override
 	protected void handleMessage(Message msg) throws IOException,InterruptedException {
 		
-		if(msg instanceof UpdateAcMessage){
+		if(msg instanceof SyncMessage){
 			Main.connected = true;
-			ClientGame.updateGameObjects(((UpdateAcMessage) msg).actors);
+			ClientGame.updateGameObjects(((SyncMessage) msg).actors);
 			//System.out.println("updating game objects");
 		}else if(msg instanceof ConnectionAcceptedMessage){
 			System.err.println("Accepted");

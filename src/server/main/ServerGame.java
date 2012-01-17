@@ -8,7 +8,7 @@ import server.networking.ConnectionPool;
 import shared.main.Game;
 import shared.main.entity.Entity;
 import shared.main.entity.EntityBuilder;
-import shared.networking.UpdateAcMessage;
+import shared.networking.SyncMessage;
 
 public class ServerGame extends Game implements Runnable {
 
@@ -44,7 +44,7 @@ public class ServerGame extends Game implements Runnable {
 			lastUpdateTime = time;
 
 			if(time-lastPushGo>pushGoTime){
-				cp.sayToAll(new UpdateAcMessage(actors));
+				cp.sayToAll(new SyncMessage(actors));
 				lastPushGo = time;
 			}
 		}
@@ -76,7 +76,7 @@ public class ServerGame extends Game implements Runnable {
 	}
 	
 	private void load(){
-		actors.add(EntityBuilder.buildAsteroid());
+		actors.add(EntityBuilder.buildAsteroid(new Vector2f(5,5)));
 		actors.add(EntityBuilder.buildAsteroid());
 	}
 
