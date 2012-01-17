@@ -51,7 +51,9 @@ public class HelmComponent extends RoleComponent{
 		
 		float angleDiff = parent.getRotation()-destinationAngle;
 		float deltaAngle = (angleDiff/10)*fracOfSecond;
+		System.out.println("CurAngle:\t\t"+parent.getRotation());
+		System.out.println("DestAngle:\t\t"+destinationAngle);
 		
-		parent.setRotation(parent.getRotation()+deltaAngle);
+		parent.setRotation(parent.getRotation()-deltaAngle);
 	}
 }

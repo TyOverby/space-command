@@ -43,6 +43,7 @@ public class Main extends BasicGame{
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException 
 	{
+		clientGame.collectInput(gc);
 		clientGame.update(delta);
 	}
 

@@ -1,5 +1,6 @@
 package shared.main;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import shared.main.entity.Entity;
@@ -10,6 +11,8 @@ public abstract class Game {
 	protected  Hollywood<Entity> actors = new Hollywood<Entity>();
 	
 	public abstract void init(Vector2f screenDims);
+	
+	public abstract void collectInput(GameContainer gc);
 	
 	public abstract void update(long delta);
 	

@@ -8,6 +8,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import server.main.ServerGame;
 import shared.main.entity.Entity;
+import shared.main.entity.EntityBuilder;
+import shared.math.Vector2f;
 import shared.networking.AbstractConnectionThread;
 import shared.networking.ConnectionAcceptedMessage;
 import shared.networking.Message;
@@ -17,7 +19,7 @@ public class ConnectionPool extends Thread{
 
 	private boolean isRunning = false;
 
-	private List<PlayerShip> playerShips = new ArrayList<PlayerShip>(5);
+	private List<PlayerCollection> playerCollection = new ArrayList<PlayerCollection>(5);
 	private List<Player> players = new CopyOnWriteArrayList<Player>();
 	private ServerSocket serverSocket;
 
@@ -83,18 +85,21 @@ public class ConnectionPool extends Thread{
 	}
 	
 	public void addPlayerToShip(String shipName, String password,Player player){
-		PlayerShip newShip = new PlayerShip(shipName,password,new Entity(shipName));
-		newShip.addPlayer(player.playerID);
+		Entity playerShipEntity = EntityBuilder.buildShip(shipName, new Vector2f(0,0));
 		
-		playerShips.add(newShip);
-		serverGame.addShip(newShip.getShip());
+		PlayerCollection newCollection = new PlayerCollection(shipName,password,playerShipEntity);
+		newCollection.addPlayer(player.playerID);
+		player.setShip(playerShipEntity);
+		
+		playerCollection.add(newCollection);
+		serverGame.addShip(playerShipEntity);
 	}
 
 	public void requestShip(String shipName, String password,Player player) {
-		for(PlayerShip ps:playerShips){
-			if(ps.getName().equals(shipName)){
-				if(ps.testPassword(password)){
-					ps.addPlayer(player.playerID);
+		for(PlayerCollection pc:playerCollection){
+			if(pc.getName().equals(shipName)){
+				if(pc.testPassword(password)){
+					pc.addPlayer(player.playerID);
 					player.say(new ConnectionAcceptedMessage());
 					System.out.println("Player added to ship: "+shipName);
 				}

@@ -1,6 +1,8 @@
 package client.main;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 
 import client.main.drawing.HelmVS;
 import client.main.drawing.ViewScreen;
@@ -11,18 +13,20 @@ import shared.main.entity.Entity;
 import shared.main.entity.Hollywood;
 import shared.math.Vector2f;
 import shared.networking.ConnectMessage;
+import shared.networking.UpdateMessage;
 
 public class ClientGame extends Game{
 	private static Hollywood<Entity> tmpAC = new Hollywood<Entity>();
 	
 	private ViewScreen viewScreen;
 	
+	ClientPort clientPort = null;
+	
 	/**
 	 * 
 	 */
 	public void init(Vector2f screenDims){
 		
-		ClientPort clientPort = null;
 		try{
 			clientPort = new ClientPort();
 		}catch(Exception e){
@@ -37,6 +41,14 @@ public class ClientGame extends Game{
 		ConnectMessage requestShip = new ConnectMessage("shipname","shippass","seht1010");
 		clientPort.start();
 		clientPort.say(requestShip);
+	}
+	
+	@Override
+	public void collectInput(GameContainer gc) {
+		Input currentInput = gc.getInput();
+		if(currentInput.isKeyDown(Input.KEY_SPACE)){
+			clientPort.say(new UpdateMessage(UpdateMessage.Destination.HELM,UpdateMessage.Type.ANGLE,180));
+		}
 	}
 
 	public void update(long delta){

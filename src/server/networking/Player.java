@@ -7,6 +7,7 @@ import shared.main.entity.Entity;
 import shared.networking.AbstractConnectionThread;
 import shared.networking.ConnectMessage;
 import shared.networking.Message;
+import shared.networking.UpdateMessage;
 
 public class Player extends AbstractConnectionThread{
 	private final ConnectionPool connectionPool;
@@ -31,11 +32,9 @@ public class Player extends AbstractConnectionThread{
 			
 			connectionPool.requestShip(message.shipName,message.password,this);
 		}
-//		if(msg instanceof UpdateMessage){
-//			if(((UpdateMessage) msg).destination==UpdateMessage.Destination.HELM){
-//				playerShip.
-//			}
-//		}
+		if(msg instanceof UpdateMessage){
+			playerShip.sendMessage(msg);
+		}
 	}
 	
 	public void setShip(Entity ship){

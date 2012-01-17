@@ -7,13 +7,14 @@ import org.newdawn.slick.Graphics;
 
 import client.main.drawing.Camera;
 
+import shared.main.entity.components.MessageHandlerComponent;
 import shared.math.Vector2f;
+import shared.networking.Message;
 
 /**
  * An Actor is something that moves around the screen and 
  * needs to have collision detected against.
  * @author Ty
- *
  */
 public class Entity implements Serializable {
 	private static final long serialVersionUID = -7526252782026942901L;
@@ -65,6 +66,15 @@ public class Entity implements Serializable {
 			}
 		}
 		return null;
+	}
+	
+	public void sendMessage(Message message){
+		for(Component c:components){
+			if(c instanceof MessageHandlerComponent){
+				((MessageHandlerComponent) c).disperseMessage(message);
+				return;
+			}
+		}
 	}
 	
 	public void update(long delta){

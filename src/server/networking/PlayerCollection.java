@@ -6,7 +6,7 @@ import java.util.List;
 
 import shared.main.entity.Entity;
 
-public class PlayerShip implements Serializable{
+public class PlayerCollection implements Serializable{
         private static final long serialVersionUID = -5079049404420648508L;
         
         private final String name;
@@ -16,7 +16,7 @@ public class PlayerShip implements Serializable{
         
         private final List<Integer> playerIdList = new ArrayList<Integer>(10);
         
-        public PlayerShip(String name, String password, Entity ship){
+        public PlayerCollection(String name, String password, Entity ship){
                 this.name = name;
                 this.password = password;
                 this.ship = ship;

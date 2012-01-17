@@ -1,5 +1,6 @@
 package server.main;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import shared.math.Vector2f;
@@ -83,6 +84,12 @@ public class ServerGame extends Game implements Runnable {
 	public static void main(String... args){
 		ServerGame sg = new ServerGame();
 		new Thread(sg).start();
+	}
+
+	@Override
+	public void collectInput(GameContainer gc) {
+		// Don't do anything.
+		
 	}
 
 
