@@ -18,13 +18,8 @@ import shared.networking.Message;
  */
 public class Entity implements Serializable {
 	private static final long serialVersionUID = -7526252782026942901L;
-	private static long idTracker = 0;
 	
-	public static long getNextId(){
-		return idTracker++;
-	}
-	
-	public final long id;
+	private int id;
 	public final String name;
 	
 	Vector2f position;
@@ -36,7 +31,6 @@ public class Entity implements Serializable {
 	ArrayList<Component> components = null;
 	
 	public Entity(String name){
-		this.id = Entity.getNextId();
 		this.name = name;
 		
 		renderComponents = new ArrayList<RenderComponent>();
@@ -114,7 +108,10 @@ public class Entity implements Serializable {
 		this.rotation = rotation;
 	}
 	
-	public long getId(){
+	public void setId(int id){
+		this.id = id;
+	}
+	public int getId(){
 		return this.id;
 	}
 }

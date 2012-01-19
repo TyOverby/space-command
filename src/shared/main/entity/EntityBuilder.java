@@ -27,8 +27,8 @@ public class EntityBuilder {
 		return asteroid;
 	}
 	
-	public static Entity buildShip(String shipName,Vector2f position){
-		Entity ship = new Entity(shipName);
+	public static Ship buildShip(String shipName,Vector2f position){
+		Ship ship = new Ship(shipName);
 		ship.setPosition(position);
 		
 		ship.addComponent(new MovingComponent());

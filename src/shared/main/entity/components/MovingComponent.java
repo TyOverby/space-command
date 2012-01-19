@@ -6,7 +6,7 @@ import shared.math.Vector2f;
 public class MovingComponent extends Component{
 	private static final long serialVersionUID = -3671444778663024028L;
 
-	private Vector2f velociy;
+	private Vector2f velocity;
 	
 	public MovingComponent(){
 		this(new Vector2f(0,0));
@@ -14,12 +14,14 @@ public class MovingComponent extends Component{
 	
 	public MovingComponent(Vector2f velocity) {
 		super("MovingComponent");
-		this.velociy = velocity;
+		this.velocity = velocity;
 	}
 	
 	@Override
 	public void update(long delta) {
 		float fracOfSecond = (float)delta/1000;
-		parent.getPosition().plusEquals(velociy.times(fracOfSecond));
+		int speed = 10;
+		velocity = new Vector2f(parent.getRotation()).times(speed);
+		parent.getPosition().plusEquals(velocity.times(fracOfSecond));
 	}
 }

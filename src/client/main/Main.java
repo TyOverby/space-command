@@ -27,7 +27,7 @@ public class Main extends BasicGame{
 	public void init(GameContainer gc) throws SlickException 
 	{
 		System.out.println("start cg init");
-		clientGame.init(new Vector2f(gc.getWidth(),gc.getHeight()));
+		clientGame.init(new Vector2f(gc.getWidth(),gc.getHeight()),gc);
 		System.out.println("end cg init");
 
 		// If we haven't connected yet, just chill.
@@ -43,13 +43,13 @@ public class Main extends BasicGame{
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException 
 	{
-		clientGame.collectInput(gc);
 		clientGame.update(delta);
 	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
+		g.setAntiAlias(true);
 		clientGame.draw(g);
 	}
 
@@ -57,7 +57,7 @@ public class Main extends BasicGame{
 		AppGameContainer app = 
 				new AppGameContainer(new Main());
 
-		app.setDisplayMode(800, 600, false);
+		app.setDisplayMode(1000, 800, false);
 		app.start();
 	}
 }

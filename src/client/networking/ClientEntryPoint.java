@@ -7,7 +7,7 @@ import shared.networking.ConnectMessage;
 
 public class ClientEntryPoint {
 	public static void main(String[] args) throws UnknownHostException, IOException {
-		ClientPort clientPort = new ClientPort();
+		ClientPort clientPort = new ClientPort(null);
 
 		System.out.println("CLIENT");
 		

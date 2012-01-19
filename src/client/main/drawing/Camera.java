@@ -77,6 +77,11 @@ public class Camera {
 		return new Vector2f(position.getX()+screenDims.getWidth()/2,position.getY()+screenDims.getHeight()/2);
 	}
 	
+	public float globalToScreen(float globalAngle){
+//		return (globalAngle);
+		return (globalAngle+90)%360;
+	}
+	
 	/**
 	 * Given a global position, this function will calculate the position of that item on the screen
 	 * @param globalPosition The position in the game.
@@ -84,6 +89,7 @@ public class Camera {
 	 */
 	public Vector2f globalToScreen(Vector2f globalPosition){
 		Vector2f toReturn = globalPosition.clone();
+		
 		
 		toReturn.setY(toReturn.getY()*-1);  // Invert the Y axis to actually make sense.
 		toReturn.setMagnitude((float) (toReturn.getMagnitude()/getZoom()));

@@ -1,5 +1,6 @@
 package shared.main.entity.components;
 
+import shared.math.Vector2f;
 import shared.networking.UpdateMessage;
 import shared.networking.UpdateMessage.Destination;
 
@@ -11,6 +12,8 @@ public class HelmComponent extends RoleComponent{
 	public HelmComponent(float rotation) {
 		super("HelmComponent ");
 		destinationAngle = rotation;
+		
+		destinationAngle = 90f;
 	}
 
 
@@ -49,11 +52,21 @@ public class HelmComponent extends RoleComponent{
 	private void updateRotation(long delta){
 		float fracOfSecond = (float)delta/1000;
 		
-		float angleDiff = parent.getRotation()-destinationAngle;
-		float deltaAngle = (angleDiff/10)*fracOfSecond;
-		System.out.println("CurAngle:\t\t"+parent.getRotation());
-		System.out.println("DestAngle:\t\t"+destinationAngle);
+		float maxAngleDif = (10)*fracOfSecond;
+		
+		float angleDiff = (parent.getRotation()-destinationAngle)*fracOfSecond;
+		float deltaAngle = Math.min(maxAngleDif, angleDiff);
 		
 		parent.setRotation(parent.getRotation()-deltaAngle);
+	}
+	
+	public float getCurRotation(){
+		return parent.getRotation();
+	}
+	public float getDestinationRotation(){
+		return this.destinationAngle;
+	}
+	public Vector2f getCurPos(){
+		return this.parent.getPosition();
 	}
 }

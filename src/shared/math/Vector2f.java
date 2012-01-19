@@ -34,8 +34,6 @@ public class Vector2f implements Serializable, Cloneable{
 		this.x = 0;
 		this.y = 1;
 		
-		System.out.println(getMagnitude());
-		
 		setTheta(theta);
 	}
 	

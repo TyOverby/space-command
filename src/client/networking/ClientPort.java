@@ -16,8 +16,11 @@ import shared.networking.SyncMessage;
 
 public class ClientPort extends AbstractConnectionThread{
 
-	public ClientPort() throws UnknownHostException, IOException {
+	private final ClientGame clientGame;
+	
+	public ClientPort(ClientGame cg) throws UnknownHostException, IOException {
 		super(new Socket("localhost",AbstractConnectionThread.PORT));
+		this.clientGame = cg;
 	}
 
 	@Override
@@ -28,6 +31,7 @@ public class ClientPort extends AbstractConnectionThread{
 			ClientGame.updateGameObjects(((SyncMessage) msg).actors);
 			//System.out.println("updating game objects");
 		}else if(msg instanceof ConnectionAcceptedMessage){
+			clientGame.setPlayerShipId(((ConnectionAcceptedMessage)msg).shipId);
 			System.err.println("Accepted");
 			Main.connected = true;
 		}else if(msg instanceof ConnectionDeniedMessage){

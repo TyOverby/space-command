@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import server.main.ServerGame;
-import shared.main.entity.Entity;
 import shared.main.entity.EntityBuilder;
+import shared.main.entity.Ship;
 import shared.math.Vector2f;
 import shared.networking.AbstractConnectionThread;
 import shared.networking.ConnectionAcceptedMessage;
@@ -84,23 +84,28 @@ public class ConnectionPool extends Thread{
 		}
 	}
 	
-	public void addPlayerToShip(String shipName, String password,Player player){
-		Entity playerShipEntity = EntityBuilder.buildShip(shipName, new Vector2f(0,0));
+	public int createShip(String shipName, String password,Player player){
+		Ship playerShipEntity = EntityBuilder.buildShip(shipName, new Vector2f(0,0));
 		
 		PlayerCollection newCollection = new PlayerCollection(shipName,password,playerShipEntity);
 		newCollection.addPlayer(player.playerID);
-		player.setShip(playerShipEntity);
+		player.setPlayerCollection(newCollection);
 		
 		playerCollection.add(newCollection);
 		serverGame.addShip(playerShipEntity);
+		
+		return playerShipEntity.getId();
 	}
 
 	public void requestShip(String shipName, String password,Player player) {
 		for(PlayerCollection pc:playerCollection){
 			if(pc.getName().equals(shipName)){
 				if(pc.testPassword(password)){
+					
 					pc.addPlayer(player.playerID);
-					player.say(new ConnectionAcceptedMessage());
+					player.setPlayerCollection(pc);
+					player.say(new ConnectionAcceptedMessage(pc.getShip().getId()));
+					
 					System.out.println("Player added to ship: "+shipName);
 				}
 				else{
@@ -110,8 +115,9 @@ public class ConnectionPool extends Thread{
 			}
 		}
 
-		addPlayerToShip(shipName,password,player);
-		player.say(new ConnectionAcceptedMessage());
+		// If it isn't found, create the ship
+		int id = createShip(shipName,password,player);
+		player.say(new ConnectionAcceptedMessage(id));
 		System.out.println("Player created ship: "+shipName);
 	}
 }

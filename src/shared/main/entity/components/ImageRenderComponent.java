@@ -30,6 +30,12 @@ public class ImageRenderComponent extends RenderComponent {
 		
 		image.draw(drawPos.getX()*scale-(image.getWidth()/2)*scale, drawPos.getY()*scale-(image.getHeight()/2)*scale,scale);
 		gr.drawRect(drawPos.getX()-1, drawPos.getY()-1, 3, 3);
+		
+		Vector2f inFront = new Vector2f(parent.getRotation());
+		inFront.timesEquals(50);
+		inFront.plusEquals(parent.getPosition());
+		inFront = camera.globalToScreen(inFront);
+		gr.drawRect(inFront.getX()-1, inFront.getY()-1, 3, 3);
 	}
 
 	@Override

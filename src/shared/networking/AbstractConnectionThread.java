@@ -59,7 +59,8 @@ public abstract class AbstractConnectionThread extends Thread {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
+        }        
+        finally {
             try {
                 if (in != null)
                     in.close();

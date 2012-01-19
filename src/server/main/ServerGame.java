@@ -1,17 +1,17 @@
 package server.main;
 
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import shared.math.Vector2f;
 
 import server.networking.ConnectionPool;
-import shared.main.Game;
 import shared.main.entity.Entity;
 import shared.main.entity.EntityBuilder;
+import shared.main.entity.Hollywood;
 import shared.networking.SyncMessage;
 
-public class ServerGame extends Game implements Runnable {
+public class ServerGame implements Runnable {
+	protected  Hollywood<Entity> actors = new Hollywood<Entity>();
 
 	private static ConnectionPool cp;
 
@@ -63,11 +63,9 @@ public class ServerGame extends Game implements Runnable {
 	public void update(long l){	
 		for(Entity actor:actors){
 			actor.update(l);
-//			System.out.println(actor.getId());
 		}
 	}
 	
-	@Override
 	public void draw(Graphics g) {
 		// Don't draw anything :D
 	}
@@ -85,12 +83,4 @@ public class ServerGame extends Game implements Runnable {
 		ServerGame sg = new ServerGame();
 		new Thread(sg).start();
 	}
-
-	@Override
-	public void collectInput(GameContainer gc) {
-		// Don't do anything.
-		
-	}
-
-
 }

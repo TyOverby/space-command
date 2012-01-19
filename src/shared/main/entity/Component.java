@@ -5,17 +5,23 @@ import java.io.Serializable;
 public abstract class Component implements Serializable{
 	private static final long serialVersionUID = 368834466616242524L;
 	
-	protected long id;
+	private static int idCount=0;
+	private static int getNewId(){
+		return idCount++;
+	}
+	
+	
+	protected int id;
 	protected String type;
 	
 	protected Entity parent;
 	
 	public Component(String type){
-		this.id = Entity.getNextId();
+		this.id = getNewId();
 		this.type = type;
 	}
 	
-	public long getId(){
+	public int getId(){
 		return id;
 	}
 	public void setOwnerEntity(Entity parent){
