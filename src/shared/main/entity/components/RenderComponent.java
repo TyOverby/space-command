@@ -1,8 +1,10 @@
-package shared.main.entity;
+package shared.main.entity.components;
 
 import org.newdawn.slick.Graphics;
 
-import client.main.drawing.Camera;
+import shared.main.entity.Component;
+
+import client.main.view.Camera;
 
 public abstract class RenderComponent extends Component{
 	private static final long serialVersionUID = 3786843882640823531L;

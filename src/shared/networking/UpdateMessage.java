@@ -5,13 +5,15 @@ public class UpdateMessage extends Message{
 	private static final long serialVersionUID = 3608091701857581922L;
 
 	public enum Destination{
-		HELM,
+		HELM, ENGINEERING,
 	}
 	public enum Type{
 		// HELM
 		FORWARD,
 		BACKWARD,
 		ANGLE,
+		
+		// ENGINEERING
 		
 		// OTHER DESTINATIONS
 	}

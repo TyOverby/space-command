@@ -7,7 +7,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 import client.main.ClientGame;
-import client.main.drawing.Camera;
 
 import shared.main.entity.Entity;
 import shared.main.entity.Ship;

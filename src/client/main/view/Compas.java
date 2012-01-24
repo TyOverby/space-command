@@ -9,7 +9,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.Log;
 
-import client.main.drawing.Camera;
 
 import shared.math.Vector2f;
 
@@ -34,7 +33,7 @@ public class Compas{
 			textPos = new Vector2f(angle);
 			textPos.timesEquals(baseRadius+20);
 
-			String dummyText = (""+(int)c.globalToScreen(angle)+"");
+			String dummyText = (""+(int)angle);//c.globalToScreen(angle)+"");
 			for(int i=dummyText.length();i<3;i++){
 				dummyText = "0"+dummyText;
 			}
@@ -97,14 +96,14 @@ public class Compas{
 	public void draw(Vector2f center,Graphics g) {
 		g.drawImage(localImg, center.getX()-localImg.getWidth()/2,center.getY()-localImg.getHeight()/2);
 	}
-	public void drawArc(float angleStart, float angleEnd, Vector2f center, Graphics g){
-
+	public void drawArc(float angleStart, float angleEnd, float dist, Vector2f center, Graphics g){
+		dist %= 359;
+		float alpha =Math.min(dist, 30)*2;
+		
 		// Arc
-		g.setColor(new Color(0,100,100,50));
+		g.setColor(new Color(0,100,100,(int)alpha));
+		g.setAntiAlias(false);
 		g.fillArc(center.getX()-radius, center.getY()-radius, radius*2, radius*2, angleStart, angleEnd);
-		if(angleStart<10){
-			g.fillArc(center.getX()-radius, center.getY()-radius, radius*2, radius*2, angleStart, angleStart+10);
-		}
 		// Lines
 		// Start Line
 
@@ -116,8 +115,9 @@ public class Compas{
 		endLine.timesEquals(radius);
 		endLine.plusEquals(center);
 
-		g.setColor(new Color(0,100,100,200));
+		g.setColor(new Color(0,100,100,(int)(alpha*2)));
 		g.setLineWidth(3);
+		g.setAntiAlias(true);
 		g.drawLine(center.getX(), center.getY(), startLine.getX(), startLine.getY());	
 		g.drawLine(center.getX(), center.getY(), endLine.getX(), endLine.getY());
 

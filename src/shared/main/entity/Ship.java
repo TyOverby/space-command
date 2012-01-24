@@ -1,6 +1,7 @@
 package shared.main.entity;
 
-import shared.main.entity.components.HelmComponent;
+import shared.main.entity.components.ship.EngineeringComponent;
+import shared.main.entity.components.ship.RoleComponent;
 import shared.math.Vector2f;
 
 public class Ship extends Entity{
@@ -12,18 +13,15 @@ public class Ship extends Entity{
 	public Ship(String name, Vector2f position) {
 		super(name, position);
 	}
-	
-	private HelmComponent helmComponent;
-
 	public void addComponent(Component component){
 		super.addComponent(component);
 		
-		if(component instanceof HelmComponent){
-			this.helmComponent = (HelmComponent) component;
+		if(component instanceof EngineeringComponent){
+			for(Component comp:components){
+				if(comp instanceof RoleComponent){
+					((RoleComponent) comp).setEngId(component.getId());
+				}
+			}
 		}
-	}
-	
-	public HelmComponent getHelmComponent(){
-		return this.helmComponent;
 	}
 }

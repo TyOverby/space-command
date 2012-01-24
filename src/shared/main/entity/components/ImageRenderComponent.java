@@ -3,10 +3,9 @@ package shared.main.entity.components;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-import client.main.drawing.Camera;
+import client.main.view.Camera;
 import client.resourcemanager.ImageManager;
 
-import shared.main.entity.RenderComponent;
 import shared.math.Vector2f;
 
 public class ImageRenderComponent extends RenderComponent {
@@ -26,11 +25,12 @@ public class ImageRenderComponent extends RenderComponent {
 		
 		float scale = camera.getZoom()*this.parent.getScale();
 		image.setCenterOfRotation((image.getWidth()/2)*scale, (image.getHeight()/2)*scale);
-		image.setRotation(parent.getRotation());
+		image.setRotation(parent.getRotation()+90);
 		
-		image.draw(drawPos.getX()*scale-(image.getWidth()/2)*scale, drawPos.getY()*scale-(image.getHeight()/2)*scale,scale);
+		image.draw(drawPos.getX()-(image.getWidth()/2)*scale, drawPos.getY()-(image.getWidth()/2*scale),scale);
 		gr.drawRect(drawPos.getX()-1, drawPos.getY()-1, 3, 3);
 		
+		// Don't bother with any of this
 		Vector2f inFront = new Vector2f(parent.getRotation());
 		inFront.timesEquals(50);
 		inFront.plusEquals(parent.getPosition());

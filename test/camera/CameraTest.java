@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import shared.math.Vector2f;
 
-import client.main.drawing.Camera;
+import client.main.view.Camera;
 
 public class CameraTest {
 	

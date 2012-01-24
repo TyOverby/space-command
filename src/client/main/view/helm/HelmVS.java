@@ -13,7 +13,7 @@ import client.main.view.Compas;
 import client.main.view.ViewScreen;
 
 import shared.main.entity.Entity;
-import shared.main.entity.components.HelmComponent;
+import shared.main.entity.components.ship.HelmComponent;
 import shared.math.Vector2f;
 import shared.networking.UpdateMessage;
 import static shared.networking.UpdateMessage.Type;
@@ -33,13 +33,12 @@ public class HelmVS extends ViewScreen{
 	public void update(long delta) {
 		super.update(delta);
 		if(playerShip!=null){
-			helm = playerShip.getHelmComponent();
+			helm = (HelmComponent) playerShip.getComponent(HelmComponent.class);
 		}
-		
+
 		if(helm != null){
-			camera.setCenter(helm.getCurPos());
-			System.out.println(helm.getCurPos());
-		}
+			camera.setPosition(helm.getCurPos());
+		}			
 	}
 
 	@Override
@@ -48,11 +47,11 @@ public class HelmVS extends ViewScreen{
 		this.gc.getInput().addMouseListener(new HelmMouseClick(){
 			public void mouseClicked(int button, int x, int y, int clickCount) {
 				System.out.println(button+" "+x+" "+y+" "+clickCount);
-				
+
 				Vector2f mouseClick = new Vector2f(x,y);
 				Vector2f shipPos = camera.globalToScreen(helm.getCurPos());
 				Vector2f diff = mouseClick.minus(shipPos);
-				
+
 				clientGame.forWardInput(new UpdateMessage(Destination.HELM, Type.ANGLE, diff.getTheta()));
 			}
 		});
@@ -78,7 +77,19 @@ public class HelmVS extends ViewScreen{
 	public void drawPre(Graphics g) {
 		if(playerShip!=null && helm!=null){
 			Vector2f position = camera.globalToScreen(playerShip.getPosition());
-			compas.drawArc(helm.getCurRotation(), helm.getDestinationRotation(), position, g);
+
+			float curRot = helm.getCurRotation();
+			float destRot = helm.getDestinationRotation();
+			
+			float right = helm.testRight(destRot, curRot);
+			float left = helm.testLeft(destRot, curRot);
+
+			if(right<left){
+				compas.drawArc(curRot, destRot,right, position, g);
+			}
+			else{
+				compas.drawArc(destRot, curRot,left, position, g);
+			}
 		}		
 	}
 
@@ -97,7 +108,7 @@ public class HelmVS extends ViewScreen{
 	public void drawFinal(Graphics g) {
 		if(clientGame.getPlayerShip()!=null){
 			Vector2f position = camera.globalToScreen(clientGame.getPlayerShip().getPosition());
-			//compas.draw(position,g);
+			compas.draw(position,g);
 		}
 	}
 

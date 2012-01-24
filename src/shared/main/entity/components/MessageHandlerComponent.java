@@ -1,6 +1,7 @@
 package shared.main.entity.components;
 
 import shared.main.entity.Component;
+import shared.main.entity.components.ship.RoleComponent;
 import shared.networking.Message;
 import shared.networking.UpdateMessage;
 

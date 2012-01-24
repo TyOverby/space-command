@@ -75,7 +75,7 @@ public class ServerGame implements Runnable {
 	}
 	
 	private void load(){
-		actors.add(EntityBuilder.buildAsteroid(new Vector2f(5,5)));
+		actors.add(EntityBuilder.buildAsteroid(new Vector2f(27,27)));
 		actors.add(EntityBuilder.buildAsteroid());
 	}
 

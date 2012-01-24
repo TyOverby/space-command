@@ -1,4 +1,4 @@
-package client.main.drawing;
+package client.main.view;
 
 import shared.math.Vector2f;
 
@@ -13,7 +13,7 @@ import shared.math.Vector2f;
 public class Camera {
 	private Vector2f screenDims;
 	private Vector2f position;
-	private float zoom = 1;
+	private float zoom = 1f;
 	
 	/**
 	 * Basic camera without a position
@@ -78,7 +78,6 @@ public class Camera {
 	}
 	
 	public float globalToScreen(float globalAngle){
-//		return (globalAngle);
 		return (globalAngle+90)%360;
 	}
 	
@@ -90,12 +89,11 @@ public class Camera {
 	public Vector2f globalToScreen(Vector2f globalPosition){
 		Vector2f toReturn = globalPosition.clone();
 		
+		toReturn.minusEquals(getPosition());
 		
-		toReturn.setY(toReturn.getY()*-1);  // Invert the Y axis to actually make sense.
-		toReturn.setMagnitude((float) (toReturn.getMagnitude()/getZoom()));
+		toReturn.timesEquals(zoom);
 		
-		toReturn.setX(toReturn.getX()+screenDims.getWidth()/2);
-		toReturn.setY(toReturn.getY()+screenDims.getHeight()/2);
+		toReturn.plusEquals(screenDims.times(0.5f));
 		
 		return toReturn;
 	}
@@ -108,11 +106,11 @@ public class Camera {
 	public Vector2f ScreenToGlobal(Vector2f screenPosition){
 		Vector2f toReturn = screenPosition.clone();
 		
-		toReturn.setY(toReturn.getY()-screenDims.getHeight()/2);
-		toReturn.setX(toReturn.getX()-screenDims.getWidth()/2);
+		toReturn.minusEquals(screenDims.times(0.5f));
 		
-		toReturn.setMagnitude((float)(toReturn.getMagnitude()*getZoom()));
-		toReturn.setY(toReturn.getY()*-1);
+		toReturn.divideEquals(zoom);
+		
+		toReturn.plusEquals(getPosition());
 		
 		return toReturn;
 	}
