@@ -7,10 +7,10 @@ public class Piece implements Serializable{
 	
 	public final String name;
 
-	final float BASE_POWER = 50;
-	final float MAX_POWER = 100;
-	final float MAX_OVERHEAT = 500;
-	final float MAX_DAMAGE = 75;
+	final float BASE_POWER = 0.5f;
+	final float MAX_POWER = 1f;
+	final float MAX_OVERHEAT = 1f;
+	final float MAX_DAMAGE = 1f;
 
 	float damage = 0;
 
@@ -42,14 +42,10 @@ public class Piece implements Serializable{
 		if(overheat >=MAX_OVERHEAT){
 			// give them 2 secs to drop it off before it totally breaks.
 			damage += 5*fracOfSecond;
-			if(damage>10){
-				damage = 10;
+			if(damage>MAX_DAMAGE){
+				damage = MAX_DAMAGE;
 			}
 		}
-	}
-
-	public float getAdjustedPower(){
-		return (power-damage)/MAX_POWER;
 	}
 	
 	public float getAdjustedPowerConsumption(long delta){
@@ -59,14 +55,11 @@ public class Piece implements Serializable{
 	}
 	
 	public float getOverheat(){
-		return this.overheat;
-	}
-	public float getOverheatPercentage(){
 		return this.overheat/this.MAX_OVERHEAT;
 	}
 
 	public float getPower(){
-		return Math.min(this.power,100);
+		return Math.min((power-damage)/MAX_POWER,1f);
 	}
 	public void setPower(float power){
 		this.power = Math.min(power,MAX_POWER);

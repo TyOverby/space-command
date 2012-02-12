@@ -105,8 +105,8 @@ public class Compas{
 		g.setAntiAlias(false);
 		g.fillArc(center.getX()-radius, center.getY()-radius, radius*2, radius*2, angleStart, angleEnd);
 		// Lines
+		
 		// Start Line
-
 		Vector2f startLine = new Vector2f(angleStart);
 		startLine.timesEquals(radius);
 		startLine.plusEquals(center);
@@ -115,7 +115,7 @@ public class Compas{
 		endLine.timesEquals(radius);
 		endLine.plusEquals(center);
 
-		g.setColor(new Color(0,100,100,(int)(alpha*2)));
+		g.setColor(new Color(0,100,100,(int)(alpha*3)));
 		g.setLineWidth(3);
 		g.setAntiAlias(true);
 		g.drawLine(center.getX(), center.getY(), startLine.getX(), startLine.getY());	

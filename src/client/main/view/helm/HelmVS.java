@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import client.gui.ScreenClickCapture;
+import client.gui.Slider;
+import client.gui.UIContainer;
 import client.main.ClientGame;
 import client.main.view.Compas;
 import client.main.view.ViewScreen;
@@ -22,6 +26,7 @@ import static shared.networking.UpdateMessage.Destination;
 
 public class HelmVS extends ViewScreen{
 	private HelmComponent helm;
+	private UIContainer uiContainer;
 
 	private final Compas compas = new Compas(200,camera);
 
@@ -43,18 +48,28 @@ public class HelmVS extends ViewScreen{
 
 	@Override
 	public void setupInput(){
-		System.out.println("setup input");
-		this.gc.getInput().addMouseListener(new HelmMouseClick(){
-			public void mouseClicked(int button, int x, int y, int clickCount) {
-				System.out.println(button+" "+x+" "+y+" "+clickCount);
+		uiContainer = new UIContainer(gc);
+		
+		ScreenClickCapture scc = new ScreenClickCapture(new Vector2f(gc.getWidth(),gc.getHeight())) {
+			@Override
+			public void handleClick(int button, float x, float y, int clickCount) {
+				 System.out.println(button+" "+x+" "+y+" "+clickCount);
 
-				Vector2f mouseClick = new Vector2f(x,y);
-				Vector2f shipPos = camera.globalToScreen(helm.getCurPos());
-				Vector2f diff = mouseClick.minus(shipPos);
+                 Vector2f mouseClick = new Vector2f(x,y);
+                 Vector2f shipPos = camera.globalToScreen(helm.getCurPos());
+                 Vector2f diff = mouseClick.minus(shipPos);
 
-				clientGame.forWardInput(new UpdateMessage(Destination.HELM, Type.ANGLE, diff.getTheta()));
+                 clientGame.forWardInput(new UpdateMessage(Destination.HELM, Type.ANGLE, diff.getTheta()));			
 			}
-		});
+		};
+		
+		Color outerColor = new Color(255,255,255,50);
+		Color innerColor = new Color(255,255,255,50);
+		
+		Slider slider1 = new Slider(new Vector2f(50,50),new Vector2f(50,200),1f,5, outerColor, innerColor);
+		
+		uiContainer.addElement(scc);
+		uiContainer.addElement(slider1);
 	}
 
 	@Override
@@ -75,12 +90,13 @@ public class HelmVS extends ViewScreen{
 
 	@Override
 	public void drawPre(Graphics g) {
+		// Draws the arc of movement
 		if(playerShip!=null && helm!=null){
 			Vector2f position = camera.globalToScreen(playerShip.getPosition());
 
 			float curRot = helm.getCurRotation();
 			float destRot = helm.getDestinationRotation();
-			
+
 			float right = helm.testRight(destRot, curRot);
 			float left = helm.testLeft(destRot, curRot);
 
@@ -113,7 +129,7 @@ public class HelmVS extends ViewScreen{
 	}
 
 	@Override
-	public void drawGui() {
-		// TODO Auto-generated method stub
+	public void drawGui(Graphics g) {
+		uiContainer.draw(g);
 	}
 }

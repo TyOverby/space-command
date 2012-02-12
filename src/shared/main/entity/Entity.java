@@ -23,6 +23,7 @@ public class Entity implements Serializable {
 	private int id;
 	public final String name;
 	
+	float speed;
 	Vector2f position;
 	float scale;
 	float rotation;
@@ -153,6 +154,13 @@ public class Entity implements Serializable {
 	}
 	public void setPosition(Vector2f position){
 		this.position = position;
+	}
+	
+	public float getSpeed(){
+		return this.speed;
+	}
+	public void setSpeed(float speed){
+		this.speed = speed;
 	}
 	
 	public float getScale(){

@@ -48,5 +48,5 @@ public abstract class ViewScreen {
 	public abstract void drawEnv(Entity env, Graphics g);
 	public abstract void drawActor(Entity actor, Graphics g);
 	public abstract void drawFinal(Graphics g);
-	public abstract void drawGui();
+	public abstract void drawGui(Graphics g);
 }

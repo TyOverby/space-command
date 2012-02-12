@@ -74,7 +74,7 @@ public class ClientGame{
 		}
 
 		viewScreen.drawFinal(g);
-		viewScreen.drawGui();
+		viewScreen.drawGui(g);
 	}
 
 	public void setPlayerShipId(int id){

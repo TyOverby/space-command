@@ -24,4 +24,8 @@ public class Ship extends Entity{
 			}
 		}
 	}
+	
+	public void update(long millis){
+		super.update(millis);
+	}
 }
