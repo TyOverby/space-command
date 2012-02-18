@@ -1,9 +1,11 @@
 package shared.main.entity;
 
+import shared.main.entity.components.CircleRenderComponent;
 import shared.main.entity.components.FreelyRotatingComponent;
 import shared.main.entity.components.ImageRenderComponent;
 import shared.main.entity.components.MessageHandlerComponent;
 import shared.main.entity.components.MovingComponent;
+import shared.main.entity.components.PhysicsComponent;
 import shared.main.entity.components.ship.EngineeringComponent;
 import shared.main.entity.components.ship.HelmComponent;
 import shared.main.entity.components.ship.RoleComponent;
@@ -37,5 +39,14 @@ public class EntityBuilder {
 		ship.addComponent(new MessageHandlerComponent(helmComponent));
 		
 		return ship;
+	}
+	
+	public static Entity buildPhysicsBall(Vector2f position, Vector2f velocity, float mass, float radius){
+		Entity toReturn = new Entity("physball",position);
+		toReturn.addComponent(new MovingComponent(velocity));
+		toReturn.addComponent(new PhysicsComponent(mass, radius));
+		toReturn.addComponent(new CircleRenderComponent());
+		
+		return toReturn;
 	}
 }

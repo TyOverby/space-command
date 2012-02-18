@@ -8,27 +8,26 @@ public class MovingComponent extends Component{
 
 	private Vector2f velocity;
 	
-	private boolean firstRun = true;
-	private float firstSpeed;
-	
 	public MovingComponent(){
-		this(0f);
+		this(new Vector2f(0,0));
 	}
-	public MovingComponent(float speed){
+	public MovingComponent(Vector2f velocity){
 		super("MovingComponent");
-		firstSpeed = speed;
+		this.velocity = velocity;
 	}
 	
 	@Override
 	public void update(long delta) {
-		if(firstRun){
-			parent.setSpeed(firstSpeed);
-			firstRun = false;
-		}
-		
 		float fracOfSecond = (float)delta/1000;
-		float speed = parent.getSpeed();
-		velocity = new Vector2f(parent.getRotation()).times(speed);
+		
 		parent.getPosition().plusEquals(velocity.times(fracOfSecond));
+	}
+	
+	public void setVelocity(Vector2f newVelocity){
+		this.velocity = newVelocity;
+	}
+	
+	public Vector2f getVelocity(){
+		return velocity;
 	}
 }

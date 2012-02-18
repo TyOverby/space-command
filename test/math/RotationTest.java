@@ -33,7 +33,7 @@ public class RotationTest {
 		float rightVal = testRight(dest,cur);
 		float leftVal = testLeft(dest,cur);
 		
-		//System.out.println(rightVal);
+		System.out.println(rightVal);
 		System.out.println(leftVal);
 	}
 }

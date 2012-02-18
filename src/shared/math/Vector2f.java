@@ -2,9 +2,10 @@ package shared.math;
 
 import java.io.Serializable;
 
+
 /**
  * A two-dimensional vector comprised of float values.
- * @author Ty
+ * @author Ty, Kevin Glass
  *
  */
 public class Vector2f implements Serializable, Cloneable{
@@ -93,6 +94,19 @@ public class Vector2f implements Serializable, Cloneable{
 	}
 	
 	/**
+	 * Dot this vector against another
+	 * 
+	 * @param other The other vector dot agianst
+	 * @return The dot product of the two vectors
+	 */
+	public float dot(Vector2f other) {
+		return (x * other.getX()) + (y * other.getY());
+	}
+	public static float dot(Vector2f one,Vector2f two) {
+		return (one.getX() * two.getX()) + (one.getY() * two.getY());
+	}
+	
+	/**
 	 * Returns a new vector that contains the components (x,y) all multiplied
 	 * by a scalar value.
 	 * @param scalar The value to multiply by.
@@ -165,11 +179,11 @@ public class Vector2f implements Serializable, Cloneable{
 	 */
 	public void divideEquals(Vector2f other){
 		setX(getX()/other.getX());
-		setY(getY()/other.getX());
+		setY(getY()/other.getY());
 	}
 	
 	public Vector2f plus(Vector2f other){
-		return new Vector2f(getX()+other.getX(),getX()+other.getX());
+		return new Vector2f(getX()+other.getX(),getY()+other.getY());
 	}
 	public void plusEquals(Vector2f other){
 		setX(getX()+other.getX());
@@ -217,6 +231,20 @@ public class Vector2f implements Serializable, Cloneable{
 	/*********
 	 * OTHER *
 	 *********/
+	
+	public static float distance(Vector2f one, Vector2f two){
+		return (float) Math.sqrt(Math.pow(one.getX()-two.getX(), 2)+Math.pow(one.getY()-two.getY(),2));
+	}
+	public static float manhattanDistance(Vector2f one, Vector2f two){
+		return (one.getX()-two.getX())+one.getY()-two.getY();
+	}
+	
+	public float distanceTo(Vector2f other){
+		return distance(this,other);
+	}
+	public float manhattanDistanceTo(Vector2f other){
+		return manhattanDistance(this,other);
+	}
 	
 	public Vector2f clone(){
 		return new Vector2f(this.getX(),this.getY());
