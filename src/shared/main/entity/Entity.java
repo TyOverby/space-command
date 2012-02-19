@@ -8,7 +8,7 @@ import org.newdawn.slick.Graphics;
 import client.main.view.Camera;
 
 import shared.main.entity.components.MessageHandlerComponent;
-import shared.main.entity.components.RenderComponent;
+import shared.main.entity.components.rendering.RenderComponent;
 import shared.math.Vector2f;
 import shared.networking.Message;
 

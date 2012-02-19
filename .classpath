@@ -6,5 +6,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/LWJGL"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Slick"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Fizzy"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JBox2d"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
